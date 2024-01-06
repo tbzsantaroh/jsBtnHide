@@ -8,25 +8,25 @@ const headcss = document.createElement('style');  // CSS生成
 document.head.appendChild(headcss);  // original => document.getElementsByTagName('head')[0].appendChild(css); headに生成したCSSを入れる
 
 // transitionだとdisplayがアニメーションできないので、やむなくkyeframes実装
-cssKeyFI = '@keyframes jsanifade-in{' + [
-    '0% {display: block}',
-    '0% {opacity: 0}',
-    '100% {opacity: 1}'
+const cssKeyFI = '@keyframes jsanifade-in{' + [
+  '0% {display: block}',
+  '0% {opacity: 0}',
+  '100% {opacity: 1}'
 ].join(' ') + '}';
-cssKeyFO = '@keyframes jsanifade-out{' + [
-    '0% {opacity: 1.0}',
-    '100% {opacity: 0}',
-    '100% {display: none}'
+const cssKeyFO = '@keyframes jsanifade-out{' + [
+  '0% {opacity: 1.0}',
+  '100% {opacity: 0}',
+  '100% {display: none}'
 ].join('') + '}';
 
-cssFI = '.jsFadeIn {' + [
+const cssFI = '.jsFadeIn {' + [
   'animation: jsanifade-in .1s linear 0s 1 normal forwards;'
 ].join('') + '}';
-cssFO = '.jsFadeOut {' + [
+const cssFO = '.jsFadeOut {' + [
   'animation: jsanifade-out .1s linear 0s 1 normal forwards;'
 ].join('') + '}';
 
-const cssrules = document.createTextNode([cssKeyFI,cssKeyFO,cssFI,cssFO].join('\n')); // CSS追加部分を結合
+const cssrules = document.createTextNode([cssKeyFI, cssKeyFO, cssFI, cssFO].join('\n')); // CSS追加部分を結合
 headcss.appendChild(cssrules);  // 生成したCSSに結合リストを追加
 
 
