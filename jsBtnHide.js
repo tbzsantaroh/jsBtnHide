@@ -2,60 +2,30 @@ const returnBtn = document.querySelector('.return_to_top'); // 表記切り替�
 const flagHeight = "100vh"; // ボタン表示を切り替えする高さ
 
 
-
-// ** CSS生成 **
-const headcss = document.createElement('style');  // CSS生成
-document.head.appendChild(headcss);  // original => document.getElementsByTagName('head')[0].appendChild(css); headに生成したCSSを入れる
-
-// transitionだとdisplayがアニメーションできないので、やむなくkyeframes実装
-const cssKeyFI = '@keyframes jsanifade-in{' + [
-  '0% {display: block}',
-  '0% {opacity: 0}',
-  '100% {opacity: 1}'
-].join(' ') + '}';
-const cssKeyFO = '@keyframes jsanifade-out{' + [
-  '0% {opacity: 1.0}',
-  '100% {opacity: 0}',
-  '100% {display: none}'
-].join('') + '}';
-
-const cssFI = '.jsFadeIn {' + [
-  'animation: jsanifade-in .1s linear 0s 1 normal forwards;'
-].join('') + '}';
-const cssFO = '.jsFadeOut {' + [
-  'animation: jsanifade-out .1s linear 0s 1 normal forwards;'
-].join('') + '}';
-
-const cssrules = document.createTextNode([cssKeyFI, cssKeyFO, cssFI, cssFO].join('\n')); // CSS追加部分を結合
-headcss.appendChild(cssrules);  // 生成したCSSに結合リストを追加
-
-
+returnBtn.style.opacity = 0;  // 最初にボタンを非表示にする これしないと、キーフレームアニメーションの順番がopacity 1 -> 0 になって一瞬ボタンが表示される
 
 // ** 動作切り替えフラグ用div生成 **
-const elm_body = document.querySelector('body');  // body要素を変数に入れる
-elm_body.insertAdjacentHTML('afterbegin', '<div class="return_to_top_flag"></div>');  // bodyの変数に対して、子要素としてdivを生成追加
-
+document.querySelector('body').insertAdjacentHTML('afterbegin', '<div class="return_to_top_flag"></div>');  // bodyに子要素としてdivを生成、追加
 const flagBtn = document.querySelector('.return_to_top_flag');  // フラグボタンを変数化
-flagBtn.style.cssText = "width: 1px;  height: " + flagHeight + ";  position: absolute;  left: 0;  top: 0;  z-index: -10;";  // z-indexをネガティブにして他の要素に被らないようにしてる
-
+flagBtn.style.cssText = "width: 1px;  height: " + flagHeight + ";  position: absolute;  left: 0;  top: 0;  visibility: hidden;  z-index: -10;";  // z-indexをネガティブにして他の要素に被らないようにしてる
 
 
 // ** フラグで動作切り替え **
-// Intersection Observerでスクロール判定してるので若干負荷軽めなはず
 const options = {
   rootMargin: "0px",
   threshold: 0 // 50%の範囲が見え隠れしたときにcallbackを呼ぶ
 }
 
+
 const callback = (entries, observer) => {
   const entry = entries[0];
   // 見えたか見えなくなったかはentry.isIntersectingでわかる
   if (entry.isIntersecting) {
-    returnBtn.classList.add("jsFadeOut");
-    returnBtn.classList.remove("jsFadeIn");
+    returnBtn.animate([{ opacity: 0 }], { duration: 250, fill: 'forwards' })
+      .finished.then(() => returnBtn.style.visibility = 'hidden');  // アニメーション終了時に要素を非表示 opacity:0だけだとボタンが残ってて誤爆するから消す
   } else {
-    returnBtn.classList.remove("jsFadeOut");
-    returnBtn.classList.add("jsFadeIn");
+    returnBtn.animate([{ opacity: 1 }], { duration: 250, fill: 'forwards' })
+      .finished.then(() => returnBtn.style.visibility = 'visible'); // アニメーション終了時に要素を表示
   }
 };
 
