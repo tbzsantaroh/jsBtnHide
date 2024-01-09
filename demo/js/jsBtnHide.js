@@ -1,4 +1,4 @@
-const returnBtn = document.querySelector('.return_to_top'); // 表記切り替えするボタン
+const returnBtn = document.querySelector('[data-return_to_top]'); // 表記切り替えするボタン
 const flagHeight = "100vh"; // ボタン表示を切り替えする高さ
 
 
