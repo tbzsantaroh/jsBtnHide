@@ -8,13 +8,13 @@
 // 1. htmlの適用したい要素のdata属性に data-return_to_top をつける。
 // 2. htmlに
 // <script>
-//   import { BtnHide } from './js/BtnHide.js';
+//   import { BtnHide } from './js/BtnHide.ts';
 //   BtnHide();
 // </script>
 // このように追加する。
 // 3. デフォルト設定を変えたい場合は
 // <script>
-//   import { setBtnHideProperties, BtnHide } from '@assets/js/BtnHide.js';
+//   import { setBtnHideProperties, BtnHide } from '@assets/js/BtnHide.ts';
 // 
 //   setBtnHideProperties({ 
 //     target: document.querySelector('[data-return_to_top]'), // 表記切り替えするボタン
